@@ -41,7 +41,7 @@ class Item(Resource):
         # get only the parser arguments from the JSON payload
         data = Item.parser.parse_args()
         
-        item = ItemModel(name, data.get('price'), data.get('store_id'))
+        item = ItemModel(name, **data)
 
         try:
             # save the item to the database
@@ -73,7 +73,7 @@ class Item(Resource):
             return {'An error occurred searching for the item'}, 500
 
         if item is None:
-            item = ItemModel(name, data.get('price'), data.get('store_id'))
+            item = ItemModel(name, **data)
         else:
             item.price = data.get('price')
             item.store_id = data.get('store_id')
@@ -89,4 +89,4 @@ class Item(Resource):
 class ItemList(Resource):
     # GET /items
     def get(self):
-        return {'items': [item.json() for item in ItemModel.query.all()]}
+        return {'items': [item.json() for item in ItemModel.find_all()]}

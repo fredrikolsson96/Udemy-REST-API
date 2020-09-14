@@ -20,14 +20,20 @@ class ItemModel(db.Model):
     # JSON-representation of the class object
     def json(self):
         return {
+            'id': self.id,
             'name': self.name,
-            'price': self.price
+            'price': self.price,
+            'store_id': self.store_id
         }
 
     # get an item from the database by its name
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
     # save the item to the database
     # could be a new item or an update of an already existing one
