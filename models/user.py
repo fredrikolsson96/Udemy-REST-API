@@ -13,9 +13,20 @@ class UserModel(db.Model):
         self.username = username
         self.password = password
 
+    def json(self):
+        return {
+            'id': self.id,
+            'username': self.username
+        }
+
     # save the user to the database
     def save_to_db(self):
         db.session.add(self)
+        db.session.commit()
+
+    # delete the user from the database
+    def delete_from_db(self):
+        db.session.delete(self)
         db.session.commit()
 
     # get a user from the database by its name

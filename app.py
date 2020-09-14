@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_jwt import JWT
 
 from security import authenticate, identity
-from resources.user import UserRegister
+from resources.user import UserRegister, User
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 from db import db
@@ -22,12 +22,13 @@ api = Api(app)
 # this creates a new endpoint: /auth
 jwt = JWT(app, authenticate, identity)
 
-# add the store, store-list, item, item-list and user-register resources to the API
+# add the store, store-list, item, item-list, user and user-register resources to the API
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserRegister, '/register')
+api.add_resource(User, '/user/<int:user_id>')
 
 # prevent application from starting when importing app module
 if __name__ == '__main__':
